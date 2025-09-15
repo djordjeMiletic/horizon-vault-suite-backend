@@ -12,12 +12,6 @@ public record JobApplicationDto(
     string JobTitle
 );
 
-public record JobApplicationCreateDto(
-    Guid JobPostingId,
-    string ApplicantName,
-    string ApplicantEmail,
-    string? CoverLetter
-);
 
 public record JobApplicationUpdateDto(
     string Status,
