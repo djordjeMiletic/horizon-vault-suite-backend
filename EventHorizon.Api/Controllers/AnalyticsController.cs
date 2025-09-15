@@ -20,7 +20,8 @@ public class AnalyticsController : ControllerBase
     [HttpGet("series")]
     public async Task<ActionResult<Dictionary<string, decimal>>> GetSeries(
         [FromQuery] string range = "last6",
-        [FromQuery] string? advisorEmail = null)
+        [FromQuery] string? advisorEmail = null,
+        [FromQuery] string format = "array")
     {
         // Apply role-based filtering
         var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
@@ -31,12 +32,23 @@ public class AnalyticsController : ControllerBase
             advisorEmail = currentUserEmail; // Advisors can only see their own data
         }
 
-        var series = await _analyticsService.GetSeriesAsync(range, advisorEmail);
-        return Ok(series);
+        if (format == "array")
+        {
+            var seriesArray = await _analyticsService.GetSeriesArrayAsync(range, advisorEmail);
+            return Ok(seriesArray);
+        }
+        else
+        {
+            var series = await _analyticsService.GetSeriesAsync(range, advisorEmail);
+            return Ok(series);
+        }
     }
 
-    [HttpGet("product-mix")]
-    public async Task<ActionResult<Dictionary<string, decimal>>> GetProductMix(
+    /// <summary>
+    /// Get analytics series data as array format
+    /// </summary>
+    [HttpGet("series")]
+    public async Task<ActionResult<SeriesPoint[]>> GetSeriesArray(
         [FromQuery] string range = "last6",
         [FromQuery] string? advisorEmail = null)
     {
@@ -49,7 +61,55 @@ public class AnalyticsController : ControllerBase
             advisorEmail = currentUserEmail; // Advisors can only see their own data
         }
 
-        var productMix = await _analyticsService.GetProductMixAsync(range, advisorEmail);
+        var series = await _analyticsService.GetSeriesArrayAsync(range, advisorEmail);
+        return Ok(series);
+    }
+
+    [HttpGet("product-mix")]
+    public async Task<ActionResult<Dictionary<string, decimal>>> GetProductMix(
+        [FromQuery] string range = "last6",
+        [FromQuery] string? advisorEmail = null,
+        [FromQuery] string format = "array")
+    {
+        // Apply role-based filtering
+        var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var currentUserRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        if (currentUserRole == "Advisor")
+        {
+            advisorEmail = currentUserEmail; // Advisors can only see their own data
+        }
+
+        if (format == "array")
+        {
+            var productMixArray = await _analyticsService.GetProductMixArrayAsync(range, advisorEmail);
+            return Ok(productMixArray);
+        }
+        else
+        {
+            var productMix = await _analyticsService.GetProductMixAsync(range, advisorEmail);
+            return Ok(productMix);
+        }
+    }
+
+    /// <summary>
+    /// Get product mix data as array format
+    /// </summary>
+    [HttpGet("product-mix")]
+    public async Task<ActionResult<ProductMixItem[]>> GetProductMixArray(
+        [FromQuery] string range = "last6",
+        [FromQuery] string? advisorEmail = null)
+    {
+        // Apply role-based filtering
+        var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var currentUserRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        if (currentUserRole == "Advisor")
+        {
+            advisorEmail = currentUserEmail; // Advisors can only see their own data
+        }
+
+        var productMix = await _analyticsService.GetProductMixArrayAsync(range, advisorEmail);
         return Ok(productMix);
     }
 }

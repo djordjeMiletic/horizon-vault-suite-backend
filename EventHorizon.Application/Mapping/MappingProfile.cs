@@ -48,5 +48,58 @@ public class MappingProfile : Profile
 
         CreateMap<WebsiteInquiryCreateDto, WebsiteInquiry>()
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+        // HR
+        CreateMap<Interview, InterviewDto>();
+        CreateMap<InterviewCreateDto, Interview>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "Scheduled"));
+        CreateMap<InterviewUpdateDto, Interview>();
+
+        CreateMap<OnboardingTask, OnboardingTaskDto>();
+        CreateMap<OnboardingTaskCreateDto, OnboardingTask>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "Pending"));
+        CreateMap<OnboardingTaskUpdateDto, OnboardingTask>();
+
+        // Client Management
+        CreateMap<Appointment, AppointmentDto>();
+        CreateMap<AppointmentCreateDto, Appointment>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "Scheduled"));
+        CreateMap<AppointmentUpdateDto, Appointment>();
+
+        // CRM
+        CreateMap<Lead, LeadDto>();
+        CreateMap<LeadCreateDto, Lead>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "New"));
+        CreateMap<LeadUpdateDto, Lead>();
+
+        CreateMap<PipelineDeal, PipelineDealDto>();
+        CreateMap<PipelineDealCreateDto, PipelineDeal>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+        CreateMap<PipelineDealUpdateDto, PipelineDeal>()
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+        CreateMap<ReferralPartner, ReferralPartnerDto>();
+        CreateMap<ReferralPartnerCreateDto, ReferralPartner>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Active, opt => opt.MapFrom(src => true));
+        CreateMap<ReferralPartnerUpdateDto, ReferralPartner>();
+
+        // Compliance
+        CreateMap<ComplianceDoc, ComplianceDocDto>();
+        CreateMap<ComplianceDocCreateDto, ComplianceDoc>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "Draft"));
+        CreateMap<ComplianceDocUpdateDto, ComplianceDoc>()
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+        CreateMap<AuditLog, AuditEntryDto>()
+            .ForMember(dest => dest.At, opt => opt.MapFrom(src => src.Ts))
+            .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.DetailsJson));
     }
 }

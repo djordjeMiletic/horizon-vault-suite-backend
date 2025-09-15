@@ -24,6 +24,13 @@ public class EventHorizonDbContext : DbContext
     public DbSet<JobPosting> JobPostings { get; set; }
     public DbSet<JobApplication> JobApplications { get; set; }
     public DbSet<WebsiteInquiry> WebsiteInquiries { get; set; }
+    public DbSet<Interview> Interviews { get; set; }
+    public DbSet<OnboardingTask> OnboardingTasks { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<Lead> Leads { get; set; }
+    public DbSet<PipelineDeal> PipelineDeals { get; set; }
+    public DbSet<ReferralPartner> ReferralPartners { get; set; }
+    public DbSet<ComplianceDoc> ComplianceDocs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -214,6 +221,87 @@ public class EventHorizonDbContext : DbContext
             entity.Property(e => e.Subject).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Message).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Source).HasMaxLength(100);
+        });
+
+        // Interview
+        modelBuilder.Entity<Interview>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Mode).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(2000);
+
+            entity.HasOne(e => e.JobApplication)
+                .WithMany()
+                .HasForeignKey(e => e.JobApplicationId);
+        });
+
+        // OnboardingTask
+        modelBuilder.Entity<OnboardingTask>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.AssigneeEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(1000);
+        });
+
+        // Appointment
+        modelBuilder.Entity<Appointment>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.ClientEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.AdvisorEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Location).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(1000);
+        });
+
+        // Lead
+        modelBuilder.Entity<Lead>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Phone).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.OwnerEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Notes).HasMaxLength(1000);
+        });
+
+        // PipelineDeal
+        modelBuilder.Entity<PipelineDeal>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.AdvisorEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Stage).HasMaxLength(50);
+            entity.Property(e => e.Value).HasPrecision(18, 2);
+            entity.Property(e => e.Notes).HasMaxLength(1000);
+        });
+
+        // ReferralPartner
+        modelBuilder.Entity<ReferralPartner>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.Notes).HasMaxLength(1000);
+        });
+
+        // ComplianceDoc
+        modelBuilder.Entity<ComplianceDoc>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.OwnerEmail).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(1000);
+
+            entity.HasOne(e => e.Document)
+                .WithMany()
+                .HasForeignKey(e => e.DocumentId);
         });
     }
 }

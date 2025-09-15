@@ -42,4 +42,17 @@ public class NotificationsController : ControllerBase
         await _notificationsService.MarkAllReadAsync(currentUserEmail, scope);
         return NoContent();
     }
+
+    /// <summary>
+    /// Mark all notifications as read (JSON body version)
+    /// </summary>
+    [HttpPost("read-all")]
+    public async Task<IActionResult> MarkAllReadJson([FromBody] object scopeData)
+    {
+        var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var scope = scopeData.GetType().GetProperty("scope")?.GetValue(scopeData)?.ToString();
+        
+        await _notificationsService.MarkAllReadAsync(currentUserEmail, scope);
+        return NoContent();
+    }
 }

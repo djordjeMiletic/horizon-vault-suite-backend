@@ -189,6 +189,65 @@ public static class DataSeeder
         };
         context.AuditLogs.AddRange(auditLogs);
 
+        // HR Data
+        var interviews = new[]
+        {
+            new Interview { Id = Guid.NewGuid(), JobApplicationId = Guid.NewGuid(), ScheduledAt = DateTime.UtcNow.AddDays(3), Mode = "Video", Status = "Scheduled", Notes = "Initial screening interview", CreatedAt = DateTime.UtcNow.AddDays(-2) },
+            new Interview { Id = Guid.NewGuid(), JobApplicationId = Guid.NewGuid(), ScheduledAt = DateTime.UtcNow.AddDays(-1), Mode = "In-Person", Status = "Completed", Notes = "Technical interview completed successfully", CreatedAt = DateTime.UtcNow.AddDays(-5) }
+        };
+        context.Interviews.AddRange(interviews);
+
+        var onboardingTasks = new[]
+        {
+            new OnboardingTask { Id = Guid.NewGuid(), Title = "Complete IT setup", AssigneeEmail = "sarah.johnson@event-horizon.test", Status = "Completed", CreatedAt = DateTime.UtcNow.AddDays(-10), CompletedAt = DateTime.UtcNow.AddDays(-8) },
+            new OnboardingTask { Id = Guid.NewGuid(), Title = "Compliance training", AssigneeEmail = "michael.carter@event-horizon.test", Status = "In Progress", CreatedAt = DateTime.UtcNow.AddDays(-5) },
+            new OnboardingTask { Id = Guid.NewGuid(), Title = "Meet team members", AssigneeEmail = "sarah.johnson@event-horizon.test", Status = "Pending", CreatedAt = DateTime.UtcNow.AddDays(-3) }
+        };
+        context.OnboardingTasks.AddRange(onboardingTasks);
+
+        // Client Management Data
+        var appointments = new[]
+        {
+            new Appointment { Id = Guid.NewGuid(), ClientEmail = "client@event-horizon.test", AdvisorEmail = "sarah.johnson@event-horizon.test", StartAt = DateTime.UtcNow.AddDays(2), EndAt = DateTime.UtcNow.AddDays(2).AddHours(1), Location = "Office Meeting Room A", Status = "Scheduled", CreatedAt = DateTime.UtcNow.AddDays(-3) },
+            new Appointment { Id = Guid.NewGuid(), ClientEmail = "client@event-horizon.test", AdvisorEmail = "michael.carter@event-horizon.test", StartAt = DateTime.UtcNow.AddDays(-2), EndAt = DateTime.UtcNow.AddDays(-2).AddHours(1), Location = "Video Call", Status = "Completed", CreatedAt = DateTime.UtcNow.AddDays(-5) },
+            new Appointment { Id = Guid.NewGuid(), ClientEmail = "john.smith@example.com", AdvisorEmail = "sarah.johnson@event-horizon.test", StartAt = DateTime.UtcNow.AddDays(5), EndAt = DateTime.UtcNow.AddDays(5).AddHours(1), Location = "Client Office", Status = "Scheduled", CreatedAt = DateTime.UtcNow.AddDays(-1) }
+        };
+        context.Appointments.AddRange(appointments);
+
+        // CRM Data
+        var leads = new[]
+        {
+            new Lead { Id = Guid.NewGuid(), Name = "Emma Wilson", Email = "emma.wilson@example.com", Phone = "+44 20 7123 4567", Status = "New", OwnerEmail = "sarah.johnson@event-horizon.test", CreatedAt = DateTime.UtcNow.AddDays(-2) },
+            new Lead { Id = Guid.NewGuid(), Name = "James Brown", Email = "james.brown@example.com", Phone = "+44 20 7123 4568", Status = "Contacted", OwnerEmail = "michael.carter@event-horizon.test", CreatedAt = DateTime.UtcNow.AddDays(-5) },
+            new Lead { Id = Guid.NewGuid(), Name = "Sophie Davis", Email = "sophie.davis@example.com", Phone = "+44 20 7123 4569", Status = "Qualified", OwnerEmail = "sarah.johnson@event-horizon.test", CreatedAt = DateTime.UtcNow.AddDays(-7) }
+        };
+        context.Leads.AddRange(leads);
+
+        var pipelineDeals = new[]
+        {
+            new PipelineDeal { Id = Guid.NewGuid(), Title = "Life Insurance - Wilson Family", AdvisorEmail = "sarah.johnson@event-horizon.test", Stage = "Proposal", Value = 25000m, CreatedAt = DateTime.UtcNow.AddDays(-10), UpdatedAt = DateTime.UtcNow.AddDays(-2) },
+            new PipelineDeal { Id = Guid.NewGuid(), Title = "Critical Illness - Brown", AdvisorEmail = "michael.carter@event-horizon.test", Stage = "Negotiation", Value = 15000m, CreatedAt = DateTime.UtcNow.AddDays(-15), UpdatedAt = DateTime.UtcNow.AddDays(-3) },
+            new PipelineDeal { Id = Guid.NewGuid(), Title = "Income Protection - Davis", AdvisorEmail = "sarah.johnson@event-horizon.test", Stage = "Qualified", Value = 18000m, CreatedAt = DateTime.UtcNow.AddDays(-8), UpdatedAt = DateTime.UtcNow.AddDays(-1) }
+        };
+        context.PipelineDeals.AddRange(pipelineDeals);
+
+        var referralPartners = new[]
+        {
+            new ReferralPartner { Id = Guid.NewGuid(), Name = "ABC Financial Services", Email = "contact@abcfinancial.com", Phone = "+44 20 7123 5000", Active = true, CreatedAt = DateTime.UtcNow.AddDays(-30) },
+            new ReferralPartner { Id = Guid.NewGuid(), Name = "XYZ Insurance Brokers", Email = "info@xyzbrokers.com", Phone = "+44 20 7123 5001", Active = true, CreatedAt = DateTime.UtcNow.AddDays(-45) },
+            new ReferralPartner { Id = Guid.NewGuid(), Name = "Premier Wealth Management", Email = "hello@premierwealth.com", Active = false, CreatedAt = DateTime.UtcNow.AddDays(-60) }
+        };
+        context.ReferralPartners.AddRange(referralPartners);
+
+        // Compliance Data
+        var complianceDocs = new[]
+        {
+            new ComplianceDoc { Id = Guid.NewGuid(), OwnerEmail = "admin@event-horizon.test", Title = "FCA Compliance Review Q4 2024", Status = "Under Review", CreatedAt = DateTime.UtcNow.AddDays(-10), UpdatedAt = DateTime.UtcNow.AddDays(-2) },
+            new ComplianceDoc { Id = Guid.NewGuid(), OwnerEmail = "manager@event-horizon.test", Title = "Data Protection Impact Assessment", Status = "Approved", CreatedAt = DateTime.UtcNow.AddDays(-20), UpdatedAt = DateTime.UtcNow.AddDays(-5) },
+            new ComplianceDoc { Id = Guid.NewGuid(), OwnerEmail = "sarah.johnson@event-horizon.test", Title = "Client Suitability Report Template", Status = "Draft", CreatedAt = DateTime.UtcNow.AddDays(-5), UpdatedAt = DateTime.UtcNow.AddDays(-1) }
+        };
+        context.ComplianceDocs.AddRange(complianceDocs);
+
         await context.SaveChangesAsync();
     }
 }

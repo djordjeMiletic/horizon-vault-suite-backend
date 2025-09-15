@@ -39,6 +39,11 @@ builder.Services.AddScoped<TicketsService>();
 builder.Services.AddScoped<DocumentsService>();
 builder.Services.AddScoped<SignatureService>();
 builder.Services.AddScoped<PublicFormsService>();
+builder.Services.AddScoped<HRService>();
+builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<CRMService>();
+builder.Services.AddScoped<ComplianceService>();
+builder.Services.AddScoped<AuditService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -52,10 +57,9 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
+              .AllowAnyHeader();
     });
 });
 

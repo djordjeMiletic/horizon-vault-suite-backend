@@ -39,6 +39,12 @@ public class AnalyticsService
         return result;
     }
 
+    public async Task<SeriesPoint[]> GetSeriesArrayAsync(string range, string? advisorEmail = null)
+    {
+        var seriesDict = await GetSeriesAsync(range, advisorEmail);
+        return seriesDict.Select(kvp => new SeriesPoint(kvp.Key, kvp.Value)).ToArray();
+    }
+
     public async Task<Dictionary<string, decimal>> GetProductMixAsync(string range, string? advisorEmail = null)
     {
         var months = GetMonthsForRange(range);
@@ -58,6 +64,12 @@ public class AnalyticsService
         return payments
             .GroupBy(p => p.Product.ProductName)
             .ToDictionary(g => g.Key, g => g.Sum(p => p.APE));
+    }
+
+    public async Task<ProductMixItem[]> GetProductMixArrayAsync(string range, string? advisorEmail = null)
+    {
+        var productMixDict = await GetProductMixAsync(range, advisorEmail);
+        return productMixDict.Select(kvp => new ProductMixItem(kvp.Key, kvp.Value)).ToArray();
     }
 
     private List<string> GetMonthsForRange(string range)

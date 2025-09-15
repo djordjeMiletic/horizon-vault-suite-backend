@@ -35,4 +35,23 @@ public class PublicController : ControllerBase
         var jobs = await _publicFormsService.ListOpenJobPostingsAsync();
         return Ok(jobs);
     }
+
+    // Route aliases for frontend compatibility
+    /// <summary>
+    /// Get open jobs (alias)
+    /// </summary>
+    [HttpGet("/jobs/public")]
+    public async Task<ActionResult<IEnumerable<JobPostingDto>>> GetOpenJobsAlias()
+    {
+        return await GetOpenJobs();
+    }
+
+    /// <summary>
+    /// Create inquiry (alias)
+    /// </summary>
+    [HttpPost("/inquiries")]
+    public async Task<ActionResult<Guid>> CreateInquiryAlias([FromBody] WebsiteInquiryCreateDto dto)
+    {
+        return await CreateInquiry(dto);
+    }
 }
