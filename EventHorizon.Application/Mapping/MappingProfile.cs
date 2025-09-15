@@ -46,6 +46,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "New"));
 
+        CreateMap<JobApplication, JobApplicationDto>()
+            .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.JobPosting.Title));
+
         CreateMap<WebsiteInquiryCreateDto, WebsiteInquiry>()
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
